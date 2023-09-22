@@ -1,15 +1,32 @@
 const express = require('express')
 const app = express()
 
-//http://localhost:3000/cualquiercosa
-app.get('/login/:user/:password', (req, res) =>{
+//http://localhost:3000/jesus/123
+app.get('/:user/:password', (req, res) =>{
     const {user, password} = req.params
     
     if (user === 'jesus' && password === '123'){
         res.json({msg: 'Inicio de sesion exitoso'})
         return
     }
-    res.json({msg: 'Error en el usuario o la contraseña'})
+    res.status(404).json({msg: 'Error en el usuario o la contraseña'})
+})
+//http://localhost:3000/login?user=jesus&password=123
+app.get('/login', (req, res) =>{
+    const {user, password} = req.query
+if(!user || !password){
+    res.status(400).json({
+        msg: 'You need to provide <user> and <password> paramenters'
+    })
+    return
+}
+
+if (user === 'jesus' && password === '123'){
+    res.json({msg: 'Inicio de sesion exitoso'})
+    return
+}
+res.status(404).json({msg: 'Error en el usuario o la contraseña'})
+
 })
 
 /*FUNCIONALIDAD*/
